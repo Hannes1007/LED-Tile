@@ -1,7 +1,10 @@
-.pio
-.vscode/
+.pio/build/d1_mini/*
+.pio/build/project.checksum
+.pio/libdeps/*
 
 !.pio/build/d1_mini/firmware.bin
+
+.vscode/
 
 /CodeGenerator/build-CodeGenerator-Desktop_Qt_5_13_0_MinGW_64_bit-Debug/debug/CodeGenerator.exe
 /CodeGenerator/build-CodeGenerator-Desktop_Qt_5_13_0_MinGW_64_bit-Debug/debug/mainwindow.o
