@@ -87,8 +87,10 @@ void setup()
 /////////////////////////////////////////// loop /////////////////////////////////////////
 void loop()
 {
-  int led = D4;
+  int led = LED_BUILTIN;
   int delayT = 100;
+
+  pinMode(led, OUTPUT); 
   
   while (true)
   {
