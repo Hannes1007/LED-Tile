@@ -93,8 +93,10 @@ void loop()
   while (true)
   {
     digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
+    Serial.println("an");
     delay(delayT);                       // wait for a second
     digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
+    Serial.println("aus");
     delay(delayT);                       // wait for a second
   }
   
