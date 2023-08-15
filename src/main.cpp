@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "util/WebPage.h"
 #include "util/SdCard.h"
 #include "util/Configuration.h"
 #include "util/Sensors.h"
@@ -44,7 +43,6 @@ void bright();
 
 ///////////////////////////////////////// classes ////////////////////////////////////////
 
-WebPage myWebPage;
 SdCard* mySdCard = new SdCard();
 Sensors* mySensors = new Sensors();
 Configuration* configuration = new Configuration();
@@ -83,7 +81,6 @@ void setup()
   pixels.setBrightness(255);
 
   // wifi
-  myWebPage.setup(configuration, mySdCard);
 
   // init effects
   effectRain.init(mapping.getMatrixMaxX(), mapping.getMatrixMaxY(), mapping.getNumberOfTiles(), 10, configuration);
@@ -103,8 +100,6 @@ void setup()
 /////////////////////////////////////////// loop /////////////////////////////////////////
 void loop()
 {
-  myWebPage.read();
-
   if (configuration->effectRainActive == true)
   {
      anim.animate(effectRain.getMatrix());

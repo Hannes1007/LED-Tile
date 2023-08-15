@@ -54,6 +54,7 @@ LedMatrix EffectRipples::getMatrix()
 
 return *ledMatrix;
 */
+return *ledMatrix;
 }
 
 LedDot EffectRipples::getDot()

@@ -12,17 +12,17 @@ void Animator::animate(const LedMatrix& rainMatrix)
   {
     for (int y = 0; y < mapping_.getMatrixMaxY(); y++)
     {
-      try
-      {
+      //try
+      //{
         pixels_.setPixelColor(mapping_.getLedId(x,y),
                           rainMatrix.getMatrixLed(x,y).getR(), 
                           rainMatrix.getMatrixLed(x,y).getG(), 
                           rainMatrix.getMatrixLed(x,y).getB());
-      }
-      catch(const std::exception& e)
-      {
-        Serial.println(e.what());
-      }
+     //}
+     // catch(const std::exception& e)
+     // {
+     //   Serial.println(e.what());
+     // }
     }
      
   }
