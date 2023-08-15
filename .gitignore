@@ -1,6 +1,8 @@
 .pio
 .vscode/
 
+!.pio\build\d1_mini\firmware.bin
+
 /CodeGenerator/build-CodeGenerator-Desktop_Qt_5_13_0_MinGW_64_bit-Debug/debug/CodeGenerator.exe
 /CodeGenerator/build-CodeGenerator-Desktop_Qt_5_13_0_MinGW_64_bit-Debug/debug/mainwindow.o
 /PixelSimulator/build-PixelSimulator-Desktop_Qt_5_13_0_MinGW_64_bit-Debug/.qmake.stash

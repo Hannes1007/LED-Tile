@@ -100,6 +100,18 @@ void setup()
 /////////////////////////////////////////// loop /////////////////////////////////////////
 void loop()
 {
+  int led = D4;
+  int delayT = 100;
+  
+  while (true)
+  {
+    digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay(delayT);                       // wait for a second
+    digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
+    delay(delayT);                       // wait for a second
+  }
+  
+
   if (configuration->effectRainActive == true)
   {
      anim.animate(effectRain.getMatrix());
