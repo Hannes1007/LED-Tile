@@ -4,6 +4,7 @@
 
 !.pio/build/d1_mini/firmware.bin
 
+src/Credentials.h
 .vscode/
 
 /CodeGenerator/build-CodeGenerator-Desktop_Qt_5_13_0_MinGW_64_bit-Debug/debug/CodeGenerator.exe

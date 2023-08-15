@@ -1,4 +1,6 @@
 #include <Arduino.h>
+#include <Credentials.h>
+
 #include "util/Configuration.h"
 
 #include "data/LedMatrix.h"
