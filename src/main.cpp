@@ -1,7 +1,5 @@
 #include <Arduino.h>
-#include "util/SdCard.h"
 #include "util/Configuration.h"
-#include "util/Sensors.h"
 
 #include "data/LedMatrix.h"
 #include "effects/Animator.h"
@@ -43,8 +41,6 @@ void bright();
 
 ///////////////////////////////////////// classes ////////////////////////////////////////
 
-SdCard* mySdCard = new SdCard();
-Sensors* mySensors = new Sensors();
 Configuration* configuration = new Configuration();
 
 EffectRain effectRain;
@@ -67,14 +63,8 @@ void setup()
 
   Serial.begin(115200);
 
-  // SdCard
-  mySdCard->setup(configuration);
-
-  String ledString = mySdCard->read(Configuration::Config::ledString);
-
   // mapping
-  mapping.setLedId(ledString);
- 
+  
   // neopixels
   pixels = Adafruit_NeoPixel(mapping.getNumberOfPixels(), PIN, NEO_GRB + NEO_KHZ800);
   pixels.begin();
@@ -88,9 +78,6 @@ void setup()
   effectBoids.init(mapping.getMatrixMaxX(), mapping.getMatrixMaxY(), mapping.getNumberOfTiles(), 10);
   effectNoise.init(mapping.getMatrixMaxX(), mapping.getMatrixMaxY(), mapping.getNumberOfTiles(), 10, configuration);
   effectGame.init(mapping.getMatrixMaxX(), mapping.getMatrixMaxY(), mapping.getNumberOfTiles(), 10);
-
-  //Sensors
-  mySensors->setup(configuration);
 
   Serial.println(mapping.getMatrixMaxX());
   Serial.println(mapping.getMatrixMaxY());
@@ -130,8 +117,6 @@ void loop()
   }*/
   
 
-   pixels.setBrightness(configuration->ledBrightness);
-   pixels.setBrightness(mySensors->read() * configuration->ledBrightness/255);
 }
 
 ///////////////////////////////////////// animate ////////////////////////////////////////
