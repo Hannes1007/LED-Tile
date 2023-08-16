@@ -99,7 +99,7 @@ void setup()
 void loop()
 {
   int led = LED_BUILTIN;
-  int delayT = 1000;
+  int delayT = 100;
 
   pinMode(led, OUTPUT); 
 
