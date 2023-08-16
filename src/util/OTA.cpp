@@ -66,14 +66,13 @@ OTA::~OTA()
 
 void OTA::setup(String id, String pw, String firmwareLocation)
 {
+
+    Serial.begin(115200);
     Serial.println("initialize OTA");
 
     id.toCharArray(ssid, id.length()+1);
     pw.toCharArray(password, pw.length()+1);
     URL_fw_Bin = firmwareLocation;
-
-    Serial.print(id); Serial.print("  "); Serial.println(ssid);
-    Serial.print(pw); Serial.print("  "); Serial.println(password);
 
     WiFi.mode(WIFI_STA);
     connect_wifi();  
