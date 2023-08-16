@@ -13,6 +13,8 @@
 #include "effects//EffectNoise/EffectNoise.h"
 #include "effects//EffectGame/EffectGame.h"
 
+#include "util/OTA.h"
+
 ///////////////////////////////////// global variables ///////////////////////////////////
 int brightness = 5;
 
@@ -54,6 +56,8 @@ EffectGame effectGame;
 PixelMapping mapping;
 Animator anim{pixels, mapping};
 
+OTA* ota = new OTA();
+
 ////////////////////////////////////////// setup /////////////////////////////////////////
 void setup()
 {
@@ -64,6 +68,11 @@ void setup()
 #endif
 
   Serial.begin(115200);
+
+  //OTA
+  ota->setup(WIFI_SSID, WIFI_PW, "https://raw.githubusercontent.com/Hannes1007/LED-Tile/master/.pio/build/d1_mini/firmware.bin");
+  pinMode(D8, INPUT);
+  
 
   // mapping
   
@@ -93,9 +102,16 @@ void loop()
   int delayT = 100;
 
   pinMode(led, OUTPUT); 
-  
+
   while (true)
   {
+    int sensorVal = digitalRead(D8);
+    Serial.println(sensorVal);
+    if (sensorVal == HIGH) 
+    {
+      ota->update(true);
+    }
+
     digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
     Serial.println("an");
     delay(delayT);                       // wait for a second
