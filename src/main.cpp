@@ -15,50 +15,7 @@
 
 #include "util/OTA.h"
 
-//#include "util/Mesh.cpp"
-
-
-
-#include "painlessMesh.h"
-
-#define   MESH_PREFIX     "whateverYouLike"
-#define   MESH_PASSWORD   "somethingSneaky"
-#define   MESH_PORT       5555
-
-Scheduler userScheduler2; // to control your personal task
-painlessMesh  mesh;
-
-// User stub
-void sendMessage2() ; // Prototype so PlatformIO doesn't complain
-
-Task taskSendMessage2( TASK_SECOND * 1 , TASK_FOREVER, &sendMessage2 );
-
-void sendMessage2() {
-  String msg = "Hi from node1";
-  msg += mesh.getNodeId();
-  mesh.sendBroadcast( msg );
-  //taskSendMessage2.setInterval( random( TASK_SECOND * 1, TASK_SECOND * 5 ));
-  taskSendMessage2.enable();
-}
-
-// Needed for painless library
-void receivedCallback2( uint32_t from, String &msg ) {
-  Serial.printf("startHere: Received from %u msg=%s\n", from, msg.c_str());
-}
-
-void newConnectionCallback2(uint32_t nodeId) {
-    Serial.printf("--> startHere: New Connection, nodeId = %u\n", nodeId);
-}
-
-void changedConnectionCallback2() {
-  Serial.printf("Changed connections\n");
-}
-
-void nodeTimeAdjustedCallback2(int32_t offset) {
-    Serial.printf("Adjusted time %u. Offset = %d\n", mesh.getNodeTime(),offset);
-}
-
-
+#include "util/Mesh.h"
 
 
 ///////////////////////////////////// global variables ///////////////////////////////////
@@ -104,7 +61,7 @@ Animator anim{pixels, mapping};
 
 OTA* ota = new OTA();
 
-//Mesh* mesh = new Mesh();
+Mesh* mesh = new Mesh();
 
 ////////////////////////////////////////// setup /////////////////////////////////////////
 void setup()
@@ -121,23 +78,9 @@ void setup()
   ota->setup(WIFI_SSID, WIFI_PW, "https://raw.githubusercontent.com/Hannes1007/LED-Tile/master/.pio/build/d1_mini/firmware.bin");
   pinMode(D8, INPUT);
 
-  Serial.println("Check for updates");
-  ota->update(false);
 
   //Mesh
-  //mesh->setup();
-  
-//mesh.setDebugMsgTypes( ERROR | MESH_STATUS | CONNECTION | SYNC | COMMUNICATION | GENERAL | MSG_TYPES | REMOTE ); // all types on
-  mesh.setDebugMsgTypes( ERROR | STARTUP );  // set before init() so that you can see startup messages
-
-  mesh.init( MESH_PREFIX, MESH_PASSWORD, &userScheduler2, MESH_PORT );
-  mesh.onReceive(&receivedCallback2);
-  mesh.onNewConnection(&newConnectionCallback2);
-  mesh.onChangedConnections(&changedConnectionCallback2);
-  mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback2);
-
-  userScheduler2.addTask( taskSendMessage2 );
-  taskSendMessage2.enable();
+  mesh->setup();
   
 
   // mapping
@@ -169,17 +112,28 @@ void loop()
 
   pinMode(led, OUTPUT); 
 
+  int count = 0;
+
   while (true)
   {
 
-    mesh.update();
-    mesh.sendBroadcast("Test");
-
+    mesh->update2();
+ 
+    String teststring = "Test ";
+    teststring = teststring + count;
+    if(count % 100 == 0)
+    {
+      mesh->broadcast(teststring,true);
+      //count = 0;
+    }
+    count++;
 
     int sensorVal = digitalRead(D8);
     //Serial.println(sensorVal);
     if (sensorVal == HIGH) 
     {
+      Serial.println(sensorVal);
+      Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       ota->update(true);
     }
 
@@ -189,6 +143,7 @@ void loop()
     //digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
     //Serial.println("aus");
     //delay(delayT);                       // wait for a second
+
   }
   
 
