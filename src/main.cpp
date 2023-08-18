@@ -120,7 +120,7 @@ void setup()
   //OTA
   ota->setup(WIFI_SSID, WIFI_PW, "https://raw.githubusercontent.com/Hannes1007/LED-Tile/master/.pio/build/d1_mini/firmware.bin");
   pinMode(D8, INPUT);
-  ota->update(true);
+  ota->update(false);
 
   //Mesh
   //mesh->setup();

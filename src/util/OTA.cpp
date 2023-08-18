@@ -8,8 +8,8 @@
 BearSSL::CertStore certStore;
 #include <time.h>
  
-const String FirmwareVer={"1.8"}; 
-#define URL_fw_Version "/programmer131/otaFiles/master/version.txt"
+const String FirmwareVer={"0.0.0"}; 
+#define URL_fw_Version "/Hannes1007/LED-Tile/master/version.txt"
 String URL_fw_Bin;
 const char* host = "raw.githubusercontent.com";
 const int httpsPort = 443;
