@@ -8,7 +8,7 @@
 BearSSL::CertStore certStore;
 #include <time.h>
  
-const String FirmwareVer={"0.0.0"}; 
+const String FirmwareVer={"0.0.1"}; 
 #define URL_fw_Version "/Hannes1007/LED-Tile/master/version.txt"
 String URL_fw_Bin;
 const char* host = "raw.githubusercontent.com";

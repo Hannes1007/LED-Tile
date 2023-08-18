@@ -120,6 +120,8 @@ void setup()
   //OTA
   ota->setup(WIFI_SSID, WIFI_PW, "https://raw.githubusercontent.com/Hannes1007/LED-Tile/master/.pio/build/d1_mini/firmware.bin");
   pinMode(D8, INPUT);
+
+  Serial.println("Check for updates");
   ota->update(false);
 
   //Mesh
@@ -175,7 +177,7 @@ void loop()
 
 
     int sensorVal = digitalRead(D8);
-   // Serial.println(sensorVal);
+    //Serial.println(sensorVal);
     if (sensorVal == HIGH) 
     {
       ota->update(true);
