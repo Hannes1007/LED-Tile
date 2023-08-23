@@ -27,8 +27,8 @@ private:
     
     unsigned long previousMillis_2 = 0;
     unsigned long previousMillis = 0;        // will store last time LED was updated
-    const long interval = 10000;
-    const long mini_interval = 1000;
+    unsigned long interval = 10000;
+    unsigned long mini_interval = 1000;
 };
 
 #endif

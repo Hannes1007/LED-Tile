@@ -177,7 +177,7 @@ void OTA::repeatedCall(bool ignoreVersion)
       digitalWrite(LED_BUILTIN, HIGH);
      else 
       digitalWrite(LED_BUILTIN, LOW);
-     if(WiFi.status() == !WL_CONNECTED) 
+     if(WiFi.status() != WL_CONNECTED) 
           connect_wifi();
    }
 }
