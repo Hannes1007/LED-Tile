@@ -1,6 +1,6 @@
 #ifndef PIXEL_MAPPING_H
 #define PIXEL_MAPPING_H
-
+#include <vector>
 #include <Arduino.h>
 
 struct led

@@ -17,6 +17,10 @@
 
 #include "util/Mesh.h"
 
+#if defined(ESP8266)
+  #include <Hash.h>
+#endif
+
 
 ///////////////////////////////////// global variables ///////////////////////////////////
 int brightness = 5;
@@ -31,7 +35,9 @@ int brightness = 5;
 // int delayval = 500; // delay for half a second
 Adafruit_NeoPixel pixels;
 
-/////////////////////////////////////////// WiFi /////////////////////////////////////////
+/////////////////////////////////////////// ota //////////////////////////////////////////
+
+int updatePin;
 
 //////////////////////////////////////// led matrix //////////////////////////////////////
 
@@ -76,8 +82,16 @@ void setup()
 
   //OTA
   ota->setup(WIFI_SSID, WIFI_PW, "https://raw.githubusercontent.com/Hannes1007/LED-Tile/master/.pio/build/d1_mini/firmware.bin");
-  pinMode(D8, INPUT);
 
+  // update pin
+  #if defined(ESP32)
+    pinMode(8, INPUT);
+    updatePin = 8;
+  #elif defined(ESP8266)
+    pinMode(D8, INPUT);
+    updatePin = D8;
+  #endif
+  
 
   //Mesh
   mesh->setup();
@@ -127,7 +141,7 @@ void loop()
     }
     count++;
 
-    int sensorVal = digitalRead(D8);
+    int sensorVal = digitalRead(updatePin);
     //Serial.println(sensorVal);
     if (sensorVal == HIGH) 
     {
