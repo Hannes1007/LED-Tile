@@ -2,19 +2,16 @@
 #include <ArduinoUniqueID.h>
 #include "Wire.h"
 
+uint8_t matrix[19][3] = {0};
 
 // led
 const int ledPin = 4;  // the number of the LED pin
 bool ledState = false;  // ledState used to set the LED
 
-//timer
-//unsigned long previousMillis = 0;  // will store last time LED was updated
-//const long interval = 1000;  // interval at which to blink (milliseconds)
-
 //i2c wire
 #define I2C_DEV_ADDR 0x55
 uint32_t i = 0;
-int count = 0;
+bool reading = false;
 
 //unique id
 int id = 0;
@@ -24,42 +21,75 @@ int id = 0;
 byte pixels[NUMLEDS * 3];
 tinyNeoPixel leds = tinyNeoPixel(NUMLEDS, 1, NEO_GRB, pixels);
 
-
-
-void onRequest(){
-  Wire.print(i++);
-  Wire.print(" Packets.");
-  //Serial.println("onRequest");
+void onRequest()
+{
+  Wire.print(id);
 }
 
 void onReceive(int len)
 {
-  
   char returnString[len];
-  bool isADigit = true;
-  
+  char returnString2[len];
+  int count = 0;
+
   while(Wire.available())
   {
     char c = Wire.read();
-    if (!isdigit(c)) 
-    {
-      isADigit = false;
-    } 
     returnString[count]= c;
     count++;
   }
-  count= 0;
-  if(isADigit)
+
+  if(returnString[0] == 'E')
   {
-    //Serial.print ("it's a number: "); Serial.println( atoi(returnString));
+    reading = false; 
   }
-  else
+  else if (reading)
   {
-    //Serial.print ("it has letters: "); Serial.println(returnString);
+    uint8_t a,b,c, f=1;
+    for(int z; z < len; z++)
+    {
+      //leds.setPixelColor(1, 0, 10, 0);
+      if(f == 1)
+      {
+        a=(uint8_t)returnString[z];
+      }
+      if(f == 2)
+      {
+        b=(uint8_t)returnString[z];
+      }
+      if(f == 3)
+      {
+        c=(uint8_t)returnString[z];
+        f=0;
+        /*Serial.print(a);
+        Serial.print(b);
+        Serial.print(c);
+
+        Serial.print("zähl:");
+        Serial.print(z/3);
+        Serial.print("   ");*/
+        int stelle = z/3;
+
+        matrix[stelle][0] = a;
+        matrix[stelle][1] = b;
+        matrix[stelle][2] = c;
+      }
+      f++;
+    }
+    //Serial.println();
+  }
+  
+  strncpy(returnString2, returnString, len);
+  returnString2[count] = 0;
+  int i = atoi(returnString2);
+  if(i == id)
+  {
+    reading = true; 
   }
 
   ledState= !ledState;
   digitalWrite(ledPin, ledState);
+
   
 }
 
@@ -89,10 +119,18 @@ void setup()
 
 void loop()
 {
-  leds.setPixelColor(0, 10, 0, 0); // first LED full RED
+ /* leds.setPixelColor(0, 10, 0, 0); // first LED full RED
   leds.setPixelColor(1, 0, 10, 0);
   leds.setPixelColor(2, 0, 0, 10);
-  leds.setPixelColor(3, 0, 10, 10);
-  leds.show();                   // LED turns on.
-  delay(10);
+ leds.setPixelColor(3, 101, 100, 100);*/
+// leds.show();
+
+for (int i = 0 ; i < 19; i++) 
+{
+        leds.setPixelColor(i, matrix[i][0], matrix[i][1], matrix[i][2]);
+        leds.show();
+}
+        //leds.setPixelColor(0, a, b, c);
+        //leds.show();
+
 }
